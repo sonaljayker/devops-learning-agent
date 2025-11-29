@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps Learning Agent - Master Your DevOps Journey</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>🚀 DevOps Learning Agent</h1>
+                </div>
+                <nav class="nav">
+                    <button class="btn btn--secondary" id="themeToggle">🌙</button>
+                    <div class="user-info">
+                        <span class="user-level">Level <span id="userLevel">1</span></span>
+                        <div class="xp-bar">
+                            <div class="xp-progress" id="xpProgress"></div>
+                        </div>
+                        <span class="xp-text"><span id="currentXP">0</span>/<span id="nextLevelXP">1000</span> XP</span>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Application -->
+    <main class="main">
+        <!-- Onboarding Modal -->
+        <div id="onboardingModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Welcome to Your DevOps Journey! 🎯</h2>
+                    <p>Let's assess your current skills to create a personalized learning path</p>
+                </div>
+                <div class="modal-body">
+                    <div class="assessment-container">
+                        <div class="question-card">
+                            <div class="question-header">
+                                <span class="question-number">Question <span id="questionNum">1</span> of <span id="totalQuestions">3</span></span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="assessmentProgress"></div>
+                                </div>
+                            </div>
+                            <h3 id="questionText">Loading question...</h3>
+                            <div class="options" id="questionOptions"></div>
+                        </div>
+                        <div class="assessment-actions">
+                            <button class="btn btn--secondary" id="prevQuestion" disabled>Previous</button>
+                            <button class="btn btn--primary" id="nextQuestion" disabled>Next</button>
+                        </div>
+                    </div>
+                    <div class="path-selection hidden" id="pathSelection">
+                        <h3>Choose Your Learning Path</h3>
+                        <div class="path-cards" id="pathCards"></div>
+                        <button class="btn btn--primary btn--full-width" id="startJourney">Start My Journey</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="container" id="dashboard" style="display: none;">
+            <!-- Stats Overview -->
+            <section class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📚</div>
+                        <div class="stat-content">
+                            <h3 id="modulesCompleted">0</h3>
+                            <p>Modules Completed</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🏆</div>
+                        <div class="stat-content">
+                            <h3 id="achievementsEarned">0</h3>
+                            <p>Achievements</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⚡</div>
+                        <div class="stat-content">
+                            <h3 id="streakDays">0</h3>
+                            <p>Day Streak</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-content">
+                            <h3 id="overallProgress">0%</h3>
+                            <p>Overall Progress</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="quick-actions">
+                <h2>Today's Goals</h2>
+                <div class="action-cards">
+                    <div class="action-card" id="continueCurrentModule">
+                        <div class="action-icon">▶️</div>
+                        <div class="action-content">
+                            <h4>Continue Learning</h4>
+                            <p id="currentModuleText">Start your first module</p>
+                        </div>
+                        <button class="btn btn--primary">Continue</button>
+                    </div>
+                    <div class="action-card" id="practiceQuiz">
+                        <div class="action-icon">🧠</div>
+                        <div class="action-content">
+                            <h4>Practice Quiz</h4>
+                            <p>Test your knowledge</p>
+                        </div>
+                        <button class="btn btn--secondary">Take Quiz</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Learning Modules -->
+            <section class="modules-section">
+                <h2>Learning Modules</h2>
+                <div class="modules-grid" id="modulesGrid"></div>
+            </section>
+
+            <!-- Achievements -->
+            <section class="achievements-section">
+                <h2>Achievements & Badges</h2>
+                <div class="achievements-grid" id="achievementsGrid"></div>
+            </section>
+
+            <!-- AI Mentor Chat -->
+            <div class="mentor-chat" id="mentorChat">
+                <div class="mentor-header">
+                    <div class="mentor-avatar">🤖</div>
+                    <div class="mentor-info">
+                        <h4 id="mentorName">Alex - DevOps Mentor</h4>
+                        <p>Ask me anything about DevOps!</p>
+                    </div>
+                    <button class="btn btn--secondary btn--sm" id="toggleChat">💬</button>
+                </div>
+                <div class="chat-messages hidden" id="chatMessages">
+                    <div class="message mentor-message">
+                        <p>Hi there! I'm Alex, your DevOps mentor. How can I help you today?</p>
+                    </div>
+                </div>
+                <div class="chat-input hidden" id="chatInput">
+                    <input type="text" class="form-control" placeholder="Ask your mentor..." id="messageInput">
+                    <button class="btn btn--primary" id="sendMessage">Send</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module Detail Modal -->
+        <div id="moduleModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="moduleTitle">Module Title</h2>
+                    <button class="btn btn--secondary" id="closeModal">✕</button>
+                </div>
+                <div class="modal-body">
+                    <div class="module-details">
+                        <div class="module-meta">
+                            <span class="badge" id="moduleDifficulty">Beginner</span>
+                            <span class="duration" id="moduleDuration">2-3 weeks</span>
+                            <span class="xp-reward">+<span id="moduleXP">500</span> XP</span>
+                        </div>
+                        <p id="moduleDescription">Module description</p>
+                        
+                        <h4>Topics Covered</h4>
+                        <ul id="moduleTopics"></ul>
+                        
+                        <h4>Hands-on Projects</h4>
+                        <ul id="moduleProjects"></ul>
+                        
+                        <h4>Badges You'll Earn</h4>
+                        <div class="badges-preview" id="moduleBadges"></div>
+                        
+                        <div class="module-actions">
+                            <button class="btn btn--primary btn--full-width" id="startModule">Start Module</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Modal -->
+        <div id="quizModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Knowledge Check</h2>
+                    <button class="btn btn--secondary" id="closeQuizModal">✕</button>
+                </div>
+                <div class="modal-body">
+                    <div class="quiz-container">
+                        <div class="quiz-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="quizProgress"></div>
+                            </div>
+                            <span>Question <span id="quizQuestionNum">1</span> of <span id="quizTotalQuestions">5</span></span>
+                        </div>
+                        <div class="quiz-question">
+                            <h3 id="quizQuestionText">Question text here</h3>
+                            <div class="quiz-options" id="quizOptions"></div>
+                        </div>
+                        <div class="quiz-actions">
+                            <button class="btn btn--secondary" id="prevQuizQuestion" disabled>Previous</button>
+                            <button class="btn btn--primary" id="nextQuizQuestion" disabled>Next</button>
+                        </div>
+                    </div>
+                    <div class="quiz-results hidden" id="quizResults">
+                        <div class="results-summary">
+                            <h3>Quiz Complete!</h3>
+                            <div class="score-display">
+                                <div class="score-circle">
+                                    <span id="finalScore">85%</span>
+                                </div>
+                            </div>
+                            <p id="scoreMessage">Great job! You're making excellent progress.</p>
+                            <div class="xp-earned">
+                                <span class="xp-badge">+<span id="quizXP">100</span> XP</span>
+                            </div>
+                            <button class="btn btn--primary" id="closeQuizResults">Continue Learning</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
